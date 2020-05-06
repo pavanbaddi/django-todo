@@ -1,1 +1,115 @@
-{% extends "temp" %}
+{% extends "base.html" %}
+
+{% block stylsheets %}
+{{ block.super }}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<style>
+body{
+    margin: 0;
+    padding: 0;
+}
+.container-fluid{
+    background-color: #009688;
+    
+}
+.container-fluid > .wrapper{
+    width: 50%;
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #ffffff;
+}
+
+.title-container{
+    background-color: aliceblue;
+    padding: 10px 0;
+}
+
+.title-container h1{
+    margin: 0;
+    text-align: center;
+}
+
+.create-task-container, .list-task-container{
+    padding: 15px 25px 15px 25px;
+}
+</style>
+
+{% endblock  %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="wrapper">
+
+        <div class="title-container">
+            <h1>Django Todo App</h1>
+        </div>
+
+        <div class="create-task-container">
+            <h2 class="">Create Task</h2>
+            <form action="{% url 'todo_maker:save-todo' %}" method="post">
+                {% csrf_token %}
+                {{ form.id.as_hidden }}
+                <div class="form-group">
+                    {{form.title.label}}
+                    {{form.title}}
+                </div>
+                
+                <div class="form-group">
+                    {{form.description.label}}
+                    {{form.description}}
+                </div>
+
+                <div class="form-group">
+                    {{form.task_accomplished.label}}
+                    {{form.task_accomplished}}
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div>
+            </form>
+        </div>
+    
+        <div class="list-task-container">
+            <h2 class="">List Tasks</h2>
+            <table border="1" class="task-table table table-bordered"  >
+                <thead>
+                    <tr>
+                        <td>Title</td>
+                        <td>Description</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if tasks %}
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.description }}</td>
+                            <td>
+                                <a href="" class="btn btn-info btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm" type="button" onclick="removeTask({{ task.pk }})" >Remove</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">No task available</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function removeTask(id){
+    
+}
+</script>
+
+{% endblock  %}
