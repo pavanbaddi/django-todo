@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 05, 2020 at 12:31 PM
+-- Generation Time: May 07, 2020 at 01:45 PM
 -- Server version: 5.7.28-0ubuntu0.16.04.2
 -- PHP Version: 7.2.24-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -86,7 +86,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (21, 'Can add session', 6, 'add_session'),
 (22, 'Can change session', 6, 'change_session'),
 (23, 'Can delete session', 6, 'delete_session'),
-(24, 'Can view session', 6, 'view_session');
+(24, 'Can view session', 6, 'view_session'),
+(25, 'Can add Task', 7, 'add_task'),
+(26, 'Can change Task', 7, 'change_task'),
+(27, 'Can delete Task', 7, 'delete_task'),
+(28, 'Can view Task', 7, 'view_task');
 
 -- --------------------------------------------------------
 
@@ -171,7 +175,8 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (2, 'auth', 'permission'),
 (4, 'auth', 'user'),
 (5, 'contenttypes', 'contenttype'),
-(6, 'sessions', 'session');
+(6, 'sessions', 'session'),
+(7, 'todo_maker', 'task');
 
 -- --------------------------------------------------------
 
@@ -207,7 +212,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (14, 'auth', '0009_alter_user_last_name_max_length', '2020-05-05 05:54:20.013571'),
 (15, 'auth', '0010_alter_group_name_max_length', '2020-05-05 05:54:20.336126'),
 (16, 'auth', '0011_update_proxy_permissions', '2020-05-05 05:54:20.424927'),
-(17, 'sessions', '0001_initial', '2020-05-05 05:54:20.961634');
+(17, 'sessions', '0001_initial', '2020-05-05 05:54:20.961634'),
+(18, 'todo_maker', '0001_initial', '2020-05-06 05:50:27.934170');
 
 -- --------------------------------------------------------
 
@@ -220,6 +226,30 @@ CREATE TABLE `django_session` (
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `description` longtext,
+  `task_accomplished` int(11) NOT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  `updated_at` datetime(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `title`, `description`, `task_accomplished`, `created_at`, `updated_at`) VALUES
+(12, 'Send childrens to school', 'Pack sweets in the tiffin box', 1, '2020-05-07 08:13:18.461304', '2020-05-07 08:13:44.769857'),
+(13, 'Meet teacher', 'Discuss childs academic performance', 0, '2020-05-07 08:13:27.970981', '2020-05-07 08:13:27.971072'),
+(14, 'Car Installment', 'Pay car installment at 12pm', 0, '2020-05-07 08:13:38.191768', '2020-05-07 08:13:38.191938');
 
 --
 -- Indexes for dumped tables
@@ -299,6 +329,12 @@ ALTER TABLE `django_session`
   ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
 
 --
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -318,7 +354,7 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `auth_user`
@@ -348,13 +384,19 @@ ALTER TABLE `django_admin_log`
 -- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

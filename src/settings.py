@@ -53,9 +53,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'src.urls'
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
-
-print(SETTINGS_PATH)
-
+ 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

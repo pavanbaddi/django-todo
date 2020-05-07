@@ -1,6 +1,7 @@
 from django.forms import Form, ModelForm
 from django import forms
 from todo_maker.models import Task
+from django.utils.safestring import mark_safe
 
 class TaskCreateForm(ModelForm):
     id = forms.CharField(required=False)
@@ -11,6 +12,10 @@ class TaskCreateForm(ModelForm):
     class Meta:
         model = Task
         fields = ("id", "title", "description", "task_accomplished",)
+        labels = {
+            "title" : mark_safe("Task Title {}".format("<span class='required' >*</span>")),
+            "task_accomplished" : mark_safe("Task accomplished {}".format("<span class='required' >*</span>")),
+        }
         widgets = {
             "title" : forms.TextInput(attrs={'class' : 'form-control'}),
             "description" : forms.Textarea(attrs={'class' : 'form-control', 'rows' : 2}),

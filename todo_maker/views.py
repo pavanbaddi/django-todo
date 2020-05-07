@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
 from todo_maker.models import Task
 from todo_maker.forms import TaskCreateForm
 from django.contrib import messages
+from django.urls import reverse
 
 # Create your views here.
 class List(View):
@@ -16,9 +17,19 @@ class List(View):
             except Exception:
                 instance = None
 
+        delete_id = kwargs.get('delete_id', None)
+        
+        if delete_id:
+            try:
+                obj = Task.objects.filter(pk=delete_id)[0]
+                obj.delete()
+                messages.add_message(request, messages.SUCCESS, "Task removed successfully.")
+            except Exception:
+                pass
+                
         form = TaskCreateForm(instance=instance)
         context = {
-            "tasks" : Task.objects.filter(),
+            "tasks" : Task.objects.filter().order_by('task_accomplished'),
             "form" : form,
         }
 
@@ -27,9 +38,12 @@ class List(View):
     def post(self, request, *args, **kwargs):
         instance = None
         post  = request.POST.copy()
-        pk = kwargs.get('pk', None)
+        pk = post.get('id', None)
+        
+        msg = "New Task Created..."
         if pk:
             try:
+                msg = "Task Updated..."
                 instance = Task.objects.filter(pk=pk)[0]
             except Exception:
                 instance = None
@@ -39,12 +53,12 @@ class List(View):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.save()
-            messages.add_message(request, messages.SUCCESS, "Reviews successfully submitted.")
+            messages.add_message(request, messages.SUCCESS, msg)
         else:
             messages.add_message(request, messages.ERROR, "Please fill * marked fields")
             
-        
-        return redirect(reverse('list-todo'))
+        url = reverse("todo_maker:list-todo")
+        return redirect(url)
 
 
 class Create(View):
@@ -54,5 +68,4 @@ class Create(View):
         context = {}
 
         return render(request, self.template, context)
-
 
