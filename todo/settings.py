@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware', 
 ]
 
-ROOT_URLCONF = 'src.urls'
+ROOT_URLCONF = 'todo.urls'
 
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
  
@@ -58,7 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'src/templates/src'),
+            os.path.join(BASE_DIR, 'todo/templates/todo'),
             os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'src.wsgi.application'
+WSGI_APPLICATION = 'todo.wsgi.application'
 
 
 # Database

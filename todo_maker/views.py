@@ -60,12 +60,3 @@ class List(View):
         url = reverse("todo_maker:list-todo")
         return redirect(url)
 
-
-class Create(View):
-    template = "todo_marker/create.html"
-    def get(self, request, *args, **kwargs):
-        
-        context = {}
-
-        return render(request, self.template, context)
-
